@@ -3,3 +3,4 @@ development:
   database: db/cookbook.sqlite3
   pool: 5
   timeout: 5000
+
