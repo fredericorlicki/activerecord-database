@@ -6,8 +6,13 @@ db = SQLite3::Database.new(db_path)
 
 # creates the schema of the database
 # your code here
-sql = %q{
-  
+sql = %q{CREATE TABLE IF NOT EXISTS recipes(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(255),
+	description TEXT,
+	length INTEGER,
+	difficulty INTEGER
+	)
 }
 db.execute(sql)
 
@@ -15,7 +20,8 @@ db.execute(sql)
 
 # function to create a recipe
 def create_recipe(db,name,description,length,difficulty)
-  # your code here
+  sql = "INSERT INTO recipes (name, description, length, difficulty) VALUES ('#{name}', '#{description}', #{length}, #{difficulty})"
+  db.execute(sql)
 end
 
 # function to delete a recipe
@@ -34,7 +40,8 @@ def update_recipe(db,id,description)
 end
 
 def get_recipes(db)
-  # function to get all recipes
+  sql = "SELECT * FROM recipes"
+  db.execute(sql)
 end
 
 
@@ -50,6 +57,16 @@ puts "3. read your recipes"
 choice =  gets.chomp.to_i
 
 if choice == 1
+  puts "Name ?"
+  name = gets.chomp
+  puts "Desc ?"
+  desc = gets.chomp
+  puts "Length ?"
+  length = gets.chomp.to_i
+  puts "Difficulty ?"
+  difficulty = gets.chomp.to_i
+
+  create_recipe(db,name,desc,length,difficulty)
   # your code here to create a recipe
   # you need to ask for name, description, length and difficulty
   
@@ -58,6 +75,7 @@ elsif choice == 2
   
 elsif choice == 3
   # your code here to read all recipes
+  p get_recipes(db)
 end 
   
   
